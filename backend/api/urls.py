@@ -1,24 +1,28 @@
 from django.urls import path, include
-from .views import UserViewSet, TagViewSet, IngredientViewSet, RecipeListViewSet, ShoppingCartViewSet, FavoriteViewSet
+from .views import UserViewSet  # , TokenViewSet
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken import views
 
 router = DefaultRouter()
 
-router.register(r'users', UserViewSet)                          # пользователи
+router.register(r'users', UserViewSet)                   # пользователь
+# router.register(r'login', TokenViewSet)                  # получение токена
 
-router.register(r'tags', TagViewSet)                            # теги
 
-router.register(r'recipes', RecipeListViewSet)                  # рецепты
 
-router.register(r'recipes/(?<recipe_id>\d+)/shopping_cart',
-                ShoppingCartViewSet,
-                basename='shopping_cart')  # список покупок
+# router.register(r'tags', TagViewSet)                            # теги
 
-router.register(r'recipes/(?<recipe_id>\d+)/favorite',
-                FavoriteViewSet,
-                basename='favorite')           # Избранное
+# router.register(r'recipes', RecipeListViewSet)                  # рецепты
 
-router.register(r'ingredients', IngredientViewSet)
+# router.register(r'recipes/(?<recipe_id>\d+)/shopping_cart',
+#                 ShoppingCartViewSet,
+#                 basename='shopping_cart')  # список покупок
+
+# router.register(r'recipes/(?<recipe_id>\d+)/favorite',
+#                 FavoriteViewSet,
+#                 basename='favorite')           # Избранное
+
+# router.register(r'ingredients', IngredientViewSet)
 
 
 # router.register(r'posts/(?P<post_id>\d+)/comments',
@@ -26,5 +30,13 @@ router.register(r'ingredients', IngredientViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('auth/', include('djoser.urls.token')),
+    path('auth/', include('djoser.urls')),  # Работа с пользователями.
+    path('auth/', include('djoser.urls.authtoken')),  # Работа с токенами.
+
 ]
+
+
+#  urlpatterns += [
+#     path('auth/token/', views.obtain_auth_token),
+#     path('set_password/', views.obtain_auth_token)
+# ]

@@ -39,8 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'djoser',
     'api',
+    'users',
+    'recipes',
+    'rest_framework.authtoken',    
+    'djoser',
 
 ]
 
@@ -132,22 +135,33 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 
+AUTH_USER_MODEL = 'users.User'
 
 
 # STATICFILES_DIRS = ((BASE_DIR / 'static/'),)
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.IsAuthenticated',
-#     ],
+# DJOSER = {
+#     'LOGIN_FIELD': 'email',
+#     'SERIALIZERS': {
+#         'user_create': 'api.serializers.UserCreateCustomSerializer',
+#         'user': 'api.serializers.UserCustomSerializer',
+#         'cureent_user': 'api.serializers.UserCustomSerializer'
+#     },
+#     'HIDE_USERS': False,
+# }
 
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework_simplejwt.authentication.JWTAuthentication',
-#     ],
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
 
 #     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 #     'PAGE_SIZE': 2,
-# }
+}
 
 # SIMPLE_JWT = {
 #     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
