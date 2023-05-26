@@ -1,5 +1,5 @@
 from django.contrib import admin
-from users.models import User
+from users.models import User, Follow
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -8,4 +8,10 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ('username',)
 
 
+class FollowAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'author')
+    search_fields = ('author',)
+
+
 admin.site.register(User, UserAdmin)
+admin.site.register(Follow, FollowAdmin)

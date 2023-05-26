@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from users.models import User
-from .serializers import UserCreateCustomSerializer, UserCustomSerializer
+from users.models import User, Follow
+from .serializers import UserCreateCustomSerializer, UserCustomSerializer, FollowSerialozer
 from .permissions import AuthorOrReadOnly, ReadOnly
 # from rest_framework.pagination import LimitOffsetPagination
 
@@ -9,12 +9,18 @@ class UserCustomViewSet(viewsets.ModelViewSet):  # пользователи
     queryset = User.objects.all()
     serializer_class = UserCustomSerializer
     permission_classes = (AuthorOrReadOnly,)
+    # pagination_class = None
+    # def get_permissions(self):
+    #     if self.action == 'retrieve':
+    #         return (ReadOnly(),)
+    #     return super().get_permissions()
 
 
-class UserCreateCustomViewSet(viewsets.ModelViewSet):
+class UserCreateCustomViewSet(viewsets.ModelViewSet):  # для создания пользователя
     queryset = User.objects.all()
     serializer_class = UserCreateCustomSerializer
     permission_classes = (AuthorOrReadOnly,)
+    # pagination_class = None
 
     # def get_permissions(self):
     #     if self.action == 'retrieve':
@@ -22,10 +28,18 @@ class UserCreateCustomViewSet(viewsets.ModelViewSet):
     #     return super().get_permissions()
 
 
-# class TokenViewSet(viewsets.ModelViewSet):               # пользователи
-#     queryset = User.objects.all()
-#     serializer_class = TokenSerializer
-    # authentication_classes = (SessionAuthentication,)
+class SubscriptionViewSet(viewsets.ModelViewSet):  # для подписчика
+    queryset = Follow.objects.all()
+    serializer_class = FollowSerialozer
+    # pagination_class = None
+
+    def get_permissions(self):
+        if self.action == 'retrieve':
+            return (ReadOnly(),)
+        return super().get_permissions()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 # class TagViewSet(viewsets.ModelViewSet):                # теги
 #     queryset = Tag.objects.all()
