@@ -140,15 +140,15 @@ AUTH_USER_MODEL = 'users.User'
 
 # STATICFILES_DIRS = ((BASE_DIR / 'static/'),)
 
-# DJOSER = {
-#     'LOGIN_FIELD': 'email',
-#     'SERIALIZERS': {
-#         'user_create': 'api.serializers.UserCreateCustomSerializer',
-#         'user': 'api.serializers.UserCustomSerializer',
-#         'cureent_user': 'api.serializers.UserCustomSerializer'
-#     },
-#     'HIDE_USERS': False,
-# }
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+    'SERIALIZERS': {
+        'user_create': 'api.serializers.UserCreateCustomSerializer',
+        'user': 'api.serializers.UserCustomSerializer',
+        'cureent_user': 'api.serializers.UserCustomSerializer'
+    },
+    'HIDE_USERS': False,
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

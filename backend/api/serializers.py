@@ -1,31 +1,21 @@
 from rest_framework import serializers
-from djoser.serializers import UserSerializer
+from djoser.serializers import UserSerializer, UserCreateSerializer
 from users.models import User
 
 
-class UserCustomSerializer(UserSerializer):                       # пользователи
+class UserCreateCustomSerializer(UserCreateSerializer):
+    class Meta:
+        model = User
+        fields = ('email', 'id', 'username', 'first_name', 'last_name',
+                  'password')
+
+
+class UserCustomSerializer(UserSerializer):
+    # is_subscribed = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ('email',
-                  'id',
-                  'username',
-                  'first_name',
-                  'last_name',
-                  'is_subscribed')
+        fields = ('email', 'id', 'username', 'first_name', 'last_name') #'is_subscribed'
 
-
-# class TokenSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['email', 'password']
-#         # extra_kwargs = {'password': {'write_only': True}}
-
-#     def create(self, validated_data):
-#         user = User(
-#             email=validated_data['email'],
-#             password=validated_data['password']
-#         )
-#         user.set_password(validated_data['password'])
-#         user.save()
-#         return user
+    # def get_is_subscribed(self, obj):
+    #     return get_boolean(self, Follow, obj)

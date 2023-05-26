@@ -9,7 +9,7 @@ class User(AbstractUser):                               # Модель поль�
     last_name = models.CharField(max_length=150)
     is_subscribed = models.BooleanField(default=False)
 
-    # REQUIRED_FIELDS = ['first_name', 'last_name', 'is_subscribed']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'is_subscribed']
     # USERNAME_FIELD = ['email']
     # REQUIRED_FIELDS = ['username']
 

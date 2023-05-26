@@ -1,21 +1,25 @@
 from rest_framework import viewsets
 from users.models import User
-from .serializers import UserCustomSerializer
+from .serializers import UserCreateCustomSerializer, UserCustomSerializer
 from .permissions import AuthorOrReadOnly, ReadOnly
 # from rest_framework.pagination import LimitOffsetPagination
 
 
-class UserViewSet(viewsets.ModelViewSet):               # пользователи
+class UserCustomViewSet(viewsets.ModelViewSet):  # пользователи
     queryset = User.objects.all()
     serializer_class = UserCustomSerializer
-    permission_classes = (AuthorOrReadOnly,)  # разрешение
+    permission_classes = (AuthorOrReadOnly,)
 
-    # pagination_class = LimitOffsetPagination
 
-    def get_permissions(self):
-        if self.action == 'retrieve':
-            return (ReadOnly(),)
-        return super().get_permissions()
+class UserCreateCustomViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserCreateCustomSerializer
+    permission_classes = (AuthorOrReadOnly,)
+
+    # def get_permissions(self):
+    #     if self.action == 'retrieve':
+    #         return (ReadOnly(),)
+    #     return super().get_permissions()
 
 
 # class TokenViewSet(viewsets.ModelViewSet):               # пользователи
