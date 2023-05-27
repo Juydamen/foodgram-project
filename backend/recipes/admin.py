@@ -1,8 +1,15 @@
 from django.contrib import admin
-from recipes.models import Tag, Ingredient, Recipe, Favorite, Shopping_cart
+from recipes.models import (Tag,
+                            Ingredient,
+                            Recipe,
+                            Favorite,
+                            ShoppingCart,
+                            RecipeIngredient)
 
 
 class TagAdmin(admin.ModelAdmin):
+    """Отображение тегов в админке с 4 полями"""
+
     list_display = ('id',
                     'name',
                     'color',
@@ -10,36 +17,56 @@ class TagAdmin(admin.ModelAdmin):
 
 
 class IngredientAdmin(admin.ModelAdmin):
+    """Отображение ингредиентов в админке с 3 полями"""
+
     list_display = ('id',
                     'name',
                     'measurement_unit')
 
 
+class RecipeIngredientInline(admin.TabularInline):
+    """Отображение рецепта в админке с полями
+    прописанными в моделе recipe.models"""
+
+    model = RecipeIngredient
+
+
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('id',
-                    'get_tags',
-                    'author',
-                    'get_ingredients',
-                    'name',
-                    'image',
-                    'text',
-                    'cooking_time',
-                    'publication_date')
+    """Отображение рецептов в админке с:
+    - полями list_display в таблице
+    - поисковые поля search_fields
+    - поля фильтрации list_filter
+    - поле линия inlines"""
 
-    def get_tags(self, obj):
-        return "\n".join([p.tags for p in obj.tags.all()])
+    list_display = ('id', 'name', 'author', 'publication_date'
+                    )  # ,'favorites_amount'
+    search_fields = ('name', 'author')
+    list_filter = ('name', 'author', 'tags')
 
-    def get_ingredients(self, obj):
-        return "\n".join([p.ingredients for p in obj.ingredients.all()])
+    inlines = [
+        RecipeIngredientInline,
+    ]
+
+    # def favorites_amount(self, obj):
+    #     return obj.favorites.count()
+
+
+class RecipeIngredientAdmin(admin.ModelAdmin):
+    """Отображение рецепта с ингредиентами в админке с 4 полями"""
+    list_display = ('id', 'recipe', 'ingredient', 'amount')
 
 
 class FavoriteAdmin(admin.ModelAdmin):
+    """Отображение избранных в админке с 3 полями"""
+
     list_display = ('id',
                     'author',
                     'recipe')
 
 
 class Shopping_cartAdmin(admin.ModelAdmin):
+    """Отображение списка покупок в админке с 3 полями"""
+
     list_display = ('id',
                     'author',
                     'recipe')
@@ -48,5 +75,6 @@ class Shopping_cartAdmin(admin.ModelAdmin):
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Ingredient, IngredientAdmin)
 admin.site.register(Recipe, RecipeAdmin)
+admin.site.register(RecipeIngredient, RecipeIngredientAdmin)
 admin.site.register(Favorite, FavoriteAdmin)
-admin.site.register(Shopping_cart, Shopping_cartAdmin)
+admin.site.register(ShoppingCart, Shopping_cartAdmin)

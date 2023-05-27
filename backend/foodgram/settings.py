@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'users',
     'recipes',
     'rest_framework.authtoken',    
-    'djoser',
+    'djoser'
+    'django_filters',
 
 ]
 
@@ -134,6 +135,7 @@ STATIC_URL = '/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -143,11 +145,16 @@ AUTH_USER_MODEL = 'users.User'
 DJOSER = {
     'LOGIN_FIELD': 'email',
     'SERIALIZERS': {
-        'user_create': 'api.serializers.UserCreateCustomSerializer',
-        'user': 'api.serializers.UserCustomSerializer',
-        'cureent_user': 'api.serializers.UserCustomSerializer'
+        'user_create': 'api.serializers.UserCustomPostSerializer',
+        'user': 'api.serializers.UserCustomGetSerializer',
+        'cureent_user': 'api.serializers.UserCustomGetSerializer'
     },
     'HIDE_USERS': False,
+
+    # 'PERMISSIONS': {
+    #     'user_list': ['rest_framework.permissions.AllowAny'],
+    #     'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],
+    # }
 }
 
 REST_FRAMEWORK = {
@@ -159,18 +166,14 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 
-#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-#     'PAGE_SIZE': 2,
+    'DEFAULT_PAGINATION_CLASS': 'api.pagination.Paginationz',
+    'PAGE_SIZE': 6,
 }
 
 # SIMPLE_JWT = {
 #     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
 #     'AUTH_HEADER_TYPES': ('Bearer',),
 # }
-
-
-
-
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
