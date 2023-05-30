@@ -1,42 +1,27 @@
 from django.urls import path, include
-
 from rest_framework.routers import DefaultRouter
-from rest_framework.authtoken import views
+from api.views import (UserSubscribeView,
+                       UserSubscriptionsViewSet,
+                       TagViewSet,
+                       IngredientViewSet,
+                       RecipeViewSet)
 
 router = DefaultRouter()
 
-router.register(r'', UserCustomViewSet)  # получение пользователей
-router.register(r'', UserCreateCustomViewSet)  # получение токенов
-router.register(r'subscriptions/', FollowViewSet)
-router.register(r'tags/', TagViewSet)
-
-# router.register(r'users/(?P<username_id>\d+)subscribe/',
-#                 FollowViewSet, basename='subscribe')  # ссылка для подписчиков
-
-
-
-
-
-# router.register(r'recipes', RecipeListViewSet)                  # рецепты
-# router.register(r'recipes/(?<recipe_id>\d+)/shopping_cart',
-#                 ShoppingCartViewSet,
-#                 basename='shopping_cart')  # список покупок
-# router.register(r'recipes/(?<recipe_id>\d+)/favorite',
-#                 FavoriteViewSet,
-#                 basename='favorite')           # Избранное
-# router.register(r'ingredients', IngredientViewSet)
-# router.register(r'posts/(?P<post_id>\d+)/comments',
-#                 CommentViewSet, basename='comments')
+router.register(r'tags', TagViewSet, basename='tags')
+router.register(r'ingredients', IngredientViewSet, basename='ingredients')
+router.register(r'recipes', RecipeViewSet, basename='recipes')
 
 urlpatterns = [
-    path('users', include(router.urls)),
-    path('', include('djoser.urls')),  # Работа с пользователями.
-    path('auth/', include('djoser.urls.authtoken')),  # Работа с токенами.
+    # получение подписок пользователя
+    path('users/subscriptions/',
+         UserSubscriptionsViewSet.as_view({'get': 'list'})),
+    # создание подписки
+    path('users/<int:user_id>/subscribe/', UserSubscribeView.as_view()),
 
-]
-
-
-urlpatterns += [
-    # path('', include('djoser.urls')),  # Работа с пользователями.
-    # path('auth/', include('djoser.urls.authtoken')),  # Работа с токенами.
+    path('', include(router.urls)),
+    # работа с пользователями
+    path('', include('djoser.urls')),
+    # работа с токенами
+    path('auth/', include('djoser.urls.authtoken')),
 ]

@@ -38,8 +38,9 @@ class RecipeAdmin(admin.ModelAdmin):
     - поля фильтрации list_filter
     - поле линия inlines"""
 
-    list_display = ('id', 'name', 'author', 'publication_date'
-                    )  # ,'favorites_amount'
+    list_display = ('id', 'name', 'author',
+                    'favorites_amount',
+                    'publication_date')
     search_fields = ('name', 'author')
     list_filter = ('name', 'author', 'tags')
 
@@ -47,12 +48,13 @@ class RecipeAdmin(admin.ModelAdmin):
         RecipeIngredientInline,
     ]
 
-    # def favorites_amount(self, obj):
-    #     return obj.favorites.count()
+    def favorites_amount(self, obj):
+        return obj.favorites.count()
 
 
 class RecipeIngredientAdmin(admin.ModelAdmin):
     """Отображение рецепта с ингредиентами в админке с 4 полями"""
+
     list_display = ('id', 'recipe', 'ingredient', 'amount')
 
 

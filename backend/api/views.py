@@ -19,10 +19,10 @@ from recipes.models import (Tag,
                             ShoppingCart,
                             RecipeIngredient)
 from django.shortcuts import HttpResponse, get_object_or_404
-from api.moduli import (IngredientFilter,
-                        RecipeFilter,
-                        create_model_instance,
-                        delete_model_instance)
+from api.utils import (IngredientFilter,
+                       RecipeFilter,
+                       create_model_instance,
+                       delete_model_instance)
 from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Sum

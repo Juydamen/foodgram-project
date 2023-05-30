@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-from datetime import timedelta
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!7$)y0=x1$0-)0ap4gg-(d-jk1#i0%3bpso7+g4q0&n2=z(e!f'
+SECRET_KEY = (
+    'django-insecure-!7$)y0=x1$0-)0ap4gg-(d-jk1#i0%3bpso7+g4q0&n2=z(e!f')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,13 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
     'api',
     'users',
     'recipes',
-    'rest_framework.authtoken',    
-    'djoser'
     'django_filters',
-
 ]
 
 MIDDLEWARE = [
@@ -131,6 +131,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -151,10 +155,10 @@ DJOSER = {
     },
     'HIDE_USERS': False,
 
-    # 'PERMISSIONS': {
-    #     'user_list': ['rest_framework.permissions.AllowAny'],
-    #     'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],
-    # }
+    'PERMISSIONS': {
+        'user_list': ['rest_framework.permissions.AllowAny'],
+        'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],
+    }
 }
 
 REST_FRAMEWORK = {
@@ -168,12 +172,8 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PAGINATION_CLASS': 'api.pagination.Paginationz',
     'PAGE_SIZE': 6,
+
+    # 'DEFAULT_FILTER_BACKENDS': [
+    #     'django_filters.rest_framework.DjangoFilterBackend'
+    #     ]
 }
-
-# SIMPLE_JWT = {
-#     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-#     'AUTH_HEADER_TYPES': ('Bearer',),
-# }
-
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

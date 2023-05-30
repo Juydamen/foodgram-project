@@ -12,7 +12,7 @@ from recipes.models import (Tag,
                             ShoppingCart,
                             RecipeIngredient)
 import base64
-from api.moduli import create_ingredients
+from api.utils import create_ingredients
 
 
 class Base64ImageField(serializers.ImageField):
@@ -185,7 +185,7 @@ class RecipeGetSerializer(serializers.ModelSerializer):
     def get_is_favorited(self, obj):                # метод
         request = self.context.get('request')
         return (request and request.user.is_authenticated
-                and Favorite.objects.filter(user=request.user, 
+                and Favorite.objects.filter(user=request.user,
                                             recipe=obj).exists())
 
     def get_is_in_shopping_cart(self, obj):         # метод
@@ -248,8 +248,7 @@ class RecipePostSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         return RecipeGetSerializer(
             instance,
-            context={'request': request}
-        ).data
+            context={'request': request}).data
 
 
 class FavoriteSerializer(serializers.ModelSerializer):

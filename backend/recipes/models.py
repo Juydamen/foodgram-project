@@ -57,7 +57,7 @@ class Recipe(models.Model):             # Модель рецепта
     # время приготовления рецепта
     cooking_time = models.IntegerField()
     # дата и время публикации рецепта
-    publication_date = models.DateTimeField(auto_now_add=True)
+    publication_date = models.DateTimeField(auto_now_add=True, auto_now=False)
 
     class Meta:
         ordering = ['-publication_date']
@@ -80,7 +80,7 @@ class Favorite(models.Model):           # Модель избранное
                                on_delete=models.CASCADE,
                                verbose_name='Рецепт')
 
-    class Meta:                     # ????????????
+    class Meta:
         ordering = ['-id']
         constraints = [
             models.UniqueConstraint(
