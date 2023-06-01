@@ -1,7 +1,28 @@
-version: '3.3'
+version: '3.8'
 services:
 
   # тут вы опишите еще 2 контейнера: db и web
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - /var/lib/postgresql/data/
+    env_file:
+      - ./.env
+
+  web:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - static_value:/app/static/
+      - media_value:/app/media/
+    ports:
+     - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - ./.env
 
   frontend:
     build:
@@ -9,8 +30,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ../frontend/:/app/result_build/
-    # depends_on:
-      # - web
+    depends_on:
+      - web
 
   nginx:
     image: nginx:1.19.3
@@ -24,7 +45,8 @@ services:
       - static_value:/var/html/static/
       - media_value:/var/html/media/
     restart: always
-    depends_on:
+    depends_on:    
+      - web
       - frontend
 
 volumes:
