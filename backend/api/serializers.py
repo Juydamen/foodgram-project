@@ -25,7 +25,7 @@ class Base64ImageField(serializers.ImageField):
 
 
 class UserCustomPostSerializer(UserCreateSerializer):
-    """Сериализатор для получения, обновления, удаления токена"""
+    """Сериализатор для создания пользователя"""
 
     class Meta:
         model = User
@@ -289,3 +289,4 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         return RecipeMinifiedSerializer(instance.recipe,
                                         context={'request': request}).data
+
