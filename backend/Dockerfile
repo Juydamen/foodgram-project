@@ -10,4 +10,4 @@ COPY . /app
 
 WORKDIR /app
 
-CMD python manage.py loaddata ingredients.json && python3 manage.py migrate && gunicorn foodgram.wsgi:application --bind 0:8000 
+CMD python3 manage.py migrate && python3 manage.py loaddata ingredients.json && gunicorn foodgram.wsgi:application --bind 0:8000 
