@@ -10,6 +10,7 @@ services:
       - ./.env
 
   web:
+    # image: juydamen/backend
     build:
       context: ../backend
       dockerfile: Dockerfile
@@ -25,9 +26,10 @@ services:
       - ./.env
 
   frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
+    image: juydamen/frontend
+    # build:
+    #   context: ../frontend
+    #   dockerfile: Dockerfile
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
